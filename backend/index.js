@@ -12,13 +12,13 @@ const db = mysql
     host: "localhost",
     user: "root",
     password: "",
-    database: "tablets",
+    database: "telephoneDatabase",
   })
   .promise();
 
-app.get("/tablets", async (req, res) => {
+app.get("/telephones", async (req, res) => {
   try {
-    const temp = await db.query("SELECT * FROM tablets");
+    const temp = await db.query("SELECT * FROM telephones");
     const rows = temp[0];
     res.status(200).json(rows);
   } catch (error) {
@@ -27,31 +27,31 @@ app.get("/tablets", async (req, res) => {
   }
 });
 
-app.post("/tablets", async (req, res) => {
+app.post("/telephones", async (req, res) => {
   try {
     let postData = req.body;
     const [rows] = await db.query(
-      "INSERT INTO `tablets` (`Nev`, `opRendszer`, `procOrajel`, `procMagok`, `kijelzoMeret`, `kijelzoFelbontas`, `RAM`, `leiras`, `ar`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
+      "INSERT INTO `telephones` (`Nev`, `opRendszer`, `procOrajel`, `procMagok`, `kijelzoMeret`, `kijelzoFelbontas`, `RAM`, `leiras`, `ar`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
       [postData.Nev,postData.opRendszer,postData.procOrajel,postData.procMagok,postData.kijelzoMeret,postData.kijelzoFelbontas,postData.RAM,postData.leiras,postData.ar]
     );
-    res.status(200).json({ message: "Tablet was successfully added!" });
+    res.status(200).json({ message: "Telephone was successfully added!" });
   } catch (error) {
     console.error(`Error adding tablet: ${error}`);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-app.delete("/tablets/:tabletId", async (req, res) => {
+app.delete("/telephones/:phoneId", async (req, res) => {
   try {
-    let tabletId = parseInt(req.params.tabletId);
-    const [rows] = await db.query("DELETE FROM tablets WHERE id = ?", [tabletId]);
+    let phoneId = parseInt(req.params.phoneId);
+    const [rows] = await db.query("DELETE FROM telephones WHERE id = ?", [phoneId]);
     if (rows.affectedRows === 0) {
-      res.status(404).json({ error: "Tablet not found" });
+      res.status(404).json({ error: "Phone not found" });
     } else {
-      res.status(200).json({ message: "Tablet was successfully removed" });
+      res.status(200).json({ message: "Phone was successfully removed" });
     }
   } catch (error) {
-    console.error(`Error deleting tablet: ${error}`);
+    console.error(`Error deleting phone: ${error}`);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
