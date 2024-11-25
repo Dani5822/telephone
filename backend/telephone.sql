@@ -18,16 +18,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `webbolt`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tablets`
+-- Tábla szerkezet ehhez a táblához `telephones`
 --
 
-CREATE TABLE `tablets` (
+CREATE TABLE `telephones` (
   `id` int(11) NOT NULL,
   `Nev` varchar(255) DEFAULT NULL,
   `opRendszer` varchar(255) DEFAULT NULL,
@@ -41,10 +40,10 @@ CREATE TABLE `tablets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- A tábla adatainak kiíratása `tablets`
+-- A tábla adatainak kiíratása `telephones`
 --
 
-INSERT INTO `tablets` (`id`, `Nev`, `opRendszer`, `procOrajel`, `procMagok`, `kijelzoMeret`, `kijelzoFelbontas`, `RAM`, `leiras`, `ar`) VALUES
+INSERT INTO `telephones` (`id`, `Nev`, `opRendszer`, `procOrajel`, `procMagok`, `kijelzoMeret`, `kijelzoFelbontas`, `RAM`, `leiras`, `ar`) VALUES
 (1, 'iPad Air', 'iOS', 2.5, 6, 10.9, '2360 x 1640', 8, 'Powerful performance with A14 Bionic chip', 599),
 (2, 'Samsung Galaxy Tab S7', 'Android', 3.1, 8, 11, '2560 x 1600', 6, 'High refresh rate display, S-Pen included', 649),
 (3, 'Microsoft Surface Pro 7', 'Windows', 1.3, 4, 12.3, '2736 x 1824', 8, '2-in-1 versatility, great for productivity', 749),
@@ -57,9 +56,9 @@ INSERT INTO `tablets` (`id`, `Nev`, `opRendszer`, `procOrajel`, `procMagok`, `ki
 --
 
 --
--- A tábla indexei `tablets`
+-- A tábla indexei `telephones`
 --
-ALTER TABLE `tablets`
+ALTER TABLE `telephones`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -67,9 +66,9 @@ ALTER TABLE `tablets`
 --
 
 --
--- AUTO_INCREMENT a táblához `tablets`
+-- AUTO_INCREMENT a táblához `telephones`
 --
-ALTER TABLE `tablets`
+ALTER TABLE `telephones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
