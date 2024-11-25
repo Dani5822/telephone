@@ -1,4 +1,4 @@
-import { Tablet } from "../tablet";
+import { Tablet } from "../telephone";
 
 export default function Kartya(tablet: Tablet) {
   return (

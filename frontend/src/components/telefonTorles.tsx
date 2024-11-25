@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import CostumeNavbar from './navbar';
-import { Tablet } from "../tablet";
+import { Telephone } from "../telephone";
 import Kartya from "./kartya";
 
 
 
-export default function tabletTorles() {
-    const [tablets, settablet] = useState<Tablet[]>([]);
+export default function TelefonTorles() {
+    const [telephone, setTelephone] = useState<Telephone[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [errorServer, setErrorServer] = useState("");
 
     async function handleDeletePost(id: number) {
-        await fetch(`http://localhost:3000/tablets/${id}`, {
+        await fetch(`http://localhost:3000/telephones/${id}`, {
             method: 'DELETE'
         })
         .then((response) => {
@@ -22,7 +22,7 @@ export default function tabletTorles() {
             return response.json();
         })
         .then(() => {
-            settablet(tablets.filter((tablets) => tablets.id !== id));
+            setTelephone(telephone.filter((telephone) => telephone.id !== id));
         })
         .catch((error) => {
             setError(error.message);
@@ -30,19 +30,18 @@ export default function tabletTorles() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:3000/tablets')
+        fetch('http://localhost:3000/telephones')
             .then((response) => {
                 if (response.status === 404) {
                     setErrorServer("Resource not found (404)");
                 }
                 if (!response.ok) {
-                    console.log("anyad");
                     setErrorServer(`Server responded with status ${response.status}`);
                 }
                 return response.json();
             })
             .then((data) => {
-                settablet(data);
+                setTelephone(data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -69,10 +68,10 @@ export default function tabletTorles() {
             <div className="mx-auto" style={{width:"fit-content"}}>
                 <h2>Tabletek törlése</h2>
                 <ul>
-                    {tablets.map((tablet) => (
+                    {telephone.map((t) => (
                         <div className="d-flex border">
-                            {Kartya(tablet)}
-                            <span className="me-2 mt-3" style={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDeletePost(tablet.id)}>törlés</span>
+                            {Kartya(t)}
+                            <span className="me-2 mt-3" style={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDeletePost(t.id)}>törlés</span>
                         </div>
                     ))}
                 </ul>

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import Kartya from "./kartya";
-import { Tablet } from "../tablet";
+import { Telephone } from "../telephone";
 import CostumeNavbar from "./navbar";
  
 export default function Kezdolap() {
-    const [tablets, setTablets] = useState<Tablet[]>([]);
+    const [tablets, setTablets] = useState<Telephone[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
  
     useEffect(() => {
-        fetch('http://localhost:3000/tablets')
+        fetch('http://localhost:3000/telephones')
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`Server responded with status ${response.status}`);
