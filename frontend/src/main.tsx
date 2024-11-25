@@ -1,33 +1,15 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client'
 import {createBrowserRouter, RouterProvider } from 'react-router-dom'
-import TabletFelvetel from './components/tabletFelvetel';
-import TabletTorles from './components/tabletTorles';
-import TabletLista from './components/tabletLista';
-import Kezdolap from './components/kezdolap';
-import TabletekFullCrud from './components/tabletekfullcrud';
+
+import Raktar from './components/raktar';
 
 
 const router = createBrowserRouter([
+
   {
-    path: "/",
-    element: <Kezdolap />,
-  },
-  {
-    path: "/tabletfelvetel",
-    element: <TabletFelvetel />,
-  },
-  {
-    path: "/tabletTorles",
-    element: <TabletTorles />,
-  },
-  {
-    path: "/tableteklista",
-    element: <TabletLista />,
-  },
-  {
-    path: "/tabletekfullcrud",
-    element: <TabletekFullCrud />,
+    path: "/raktar",
+    element: <Raktar />,
   },
 ]);
 

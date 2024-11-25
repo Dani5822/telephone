@@ -1,4 +1,4 @@
-export interface Tablet {
+export interface telephone {
     id: number;
     Nev: string
     opRendszer: string

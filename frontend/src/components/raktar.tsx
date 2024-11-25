@@ -1,26 +1,29 @@
 import { useEffect, useState } from "react";
-import { Tablet } from "../tablet";
+import { telephone } from "../telephone";
 import Kartya from "./kartya";
 import CostumeNavbar from "./navbar";
+import { Button, Table } from "react-bootstrap";
 
-export default function tabletLista() {
-  const [tablets, settablets] = useState<Tablet[]>([]);
+export default function Raktar() {
+  const [telephones, settelephones] = useState<telephone[]>([]);
   const [loading, setLoading] = useState(true);
+  const [disable, setdisable] = useState(false);
   const [error, setError] = useState(null);
   const [errorServer, setErrorServer] = useState("");
   const [page, setPage] = useState(1);
   const [maxitems, setMaxitems] = useState(2);
-  const [items, setItems] = useState<Tablet[]>([]);
+  const [items, setItems] = useState<telephone[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState<{
-    key: keyof Tablet;
+    key: keyof telephone;
     direction: "asc" | "desc";
   } | null>(null);
-
+  const [editData, setEditData] = useState<telephone | null>(null);
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/tablets");
+        const response = await fetch("http://localhost:3000/telephone");
         if (response.status === 404) {
           setErrorServer("Resource not found (404)");
         }
@@ -28,7 +31,7 @@ export default function tabletLista() {
           setErrorServer(`Server responded with status ${response.status}`);
         }
         const data = await response.json();
-        settablets(data);
+        settelephones(data);
         setLoading(false);
       } catch (error: any) {
         setError(error.message || "Unknown error");
@@ -41,33 +44,38 @@ export default function tabletLista() {
   function Showdata() {
     setItems([]);
     const startIndex = (page - 1) * maxitems;
-    const endIndex = Math.min(page * maxitems, tablets.length);
-    const newItems = tablets.slice(startIndex, endIndex);
+    const endIndex = Math.min(page * maxitems, telephones.length);
+    const newItems = telephones.slice(startIndex, endIndex);
     setItems(newItems);
   }
 
   useEffect(() => {
     Showdata();
-  }, [page, tablets, maxitems]);
+  }, [page, telephones, maxitems]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const term = event.target.value.toLowerCase();
     setSearchTerm(term);
-    const filtered = tablets.filter(
-      (tablet) =>
-        tablet.Nev.toLowerCase().includes(term) ||
-        tablet.RAM.toString().includes(term) ||
-        tablet.ar.toString().includes(term) ||
-        tablet.kijelzoFelbontas.toLocaleLowerCase().includes(term) ||
-        tablet.kijelzoMeret.toString().includes(term) ||
-        tablet.opRendszer.toLocaleLowerCase().includes(term) ||
-        tablet.procMagok.toString().includes(term) ||
-        tablet.procOrajel.toString().includes(term)
+    const filtered = telephones.filter(
+      (telephone) =>
+        telephone.Nev.toLowerCase().includes(term) ||
+        telephone.RAM.toString().includes(term) ||
+        telephone.ar.toString().includes(term) ||
+        telephone.kijelzoFelbontas.toLocaleLowerCase().includes(term) ||
+        telephone.kijelzoMeret.toString().includes(term) ||
+        telephone.opRendszer.toLocaleLowerCase().includes(term) ||
+        telephone.procMagok.toString().includes(term) ||
+        telephone.procOrajel.toString().includes(term)
     );
     setItems(filtered);
   };
 
-  const sortTablets = (key: keyof Tablet, direction: "asc" | "desc") => {
+  const handleEdit = (telephone: telephone) => {
+    setEditData(telephone);
+    setShowModal(true);
+  };
+
+  const sorttelephones = (key: keyof telephone, direction: "asc" | "desc") => {
     const sortedPhones = [...items].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
@@ -89,11 +97,13 @@ export default function tabletLista() {
     return <p>Error: {error}</p>;
   }
 
+
+
   return (
     <>
       <CostumeNavbar />
       <div>
-        <h2>Tabletek</h2>
+        <h2>telephonok</h2>
         <form>
           <label>
             Keresés:
@@ -107,7 +117,7 @@ export default function tabletLista() {
         </form>
         <div>
           <label htmlFor="megjelen" className="me-1">
-            Egy oldalon megjelenő tabletek száma:
+            Egy oldalon megjelenő telephonok száma:
           </label>
           <input
             type="number"
@@ -120,12 +130,13 @@ export default function tabletLista() {
           />
         </div>
         <br />
-        <div className="container">
-          <div className="row">
-            <div className="col">
+        <Table striped bordered hover className="mt-3">
+          <thead>
+            <tr>
+            <th>
               Név
               <button
-                onClick={() => sortTablets("Nev", "asc")}
+                onClick={() => sorttelephones("Nev", "asc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -135,7 +146,7 @@ export default function tabletLista() {
                 &#8593;
               </button>
               <button
-                onClick={() => sortTablets("Nev", "desc")}
+                onClick={() => sorttelephones("Nev", "desc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -144,11 +155,11 @@ export default function tabletLista() {
               >
                 &#8595;
               </button>
-            </div>
-            <div className="col">
+            </th>
+              <th>
               Operációs rendszer
               <button
-                onClick={() => sortTablets("opRendszer", "asc")}
+                onClick={() => sorttelephones("opRendszer", "asc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -158,7 +169,7 @@ export default function tabletLista() {
                 &#8593;
               </button>
               <button
-                onClick={() => sortTablets("opRendszer", "desc")}
+                onClick={() => sorttelephones("opRendszer", "desc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -167,11 +178,11 @@ export default function tabletLista() {
               >
                 &#8595;
               </button>
-            </div>
-            <div className="col">
+            </th>
+              <th>
                 Processzor órajele
               <button
-                onClick={() => sortTablets("procOrajel", "asc")}
+                onClick={() => sorttelephones("procOrajel", "asc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -181,7 +192,7 @@ export default function tabletLista() {
                 &#8593;
               </button>
               <button
-                onClick={() => sortTablets("procOrajel", "desc")}
+                onClick={() => sorttelephones("procOrajel", "desc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -190,11 +201,11 @@ export default function tabletLista() {
               >
                 &#8595;
               </button>
-            </div>
-            <div className="col">
+            </th>
+              <th>
             Processzor magok száma
               <button
-                onClick={() => sortTablets("procMagok", "asc")}
+                onClick={() => sorttelephones("procMagok", "asc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -204,7 +215,7 @@ export default function tabletLista() {
                 &#8593;
               </button>
               <button
-                onClick={() => sortTablets("procMagok", "desc")}
+                onClick={() => sorttelephones("procMagok", "desc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -213,11 +224,11 @@ export default function tabletLista() {
               >
                 &#8595;
               </button>
-            </div>
-            <div className="col">
+            </th>
+              <th>
             Kijelző Méret
               <button
-                onClick={() => sortTablets("kijelzoMeret", "asc")}
+                onClick={() => sorttelephones("kijelzoMeret", "asc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -227,7 +238,7 @@ export default function tabletLista() {
                 &#8593;
               </button>
               <button
-                onClick={() => sortTablets("kijelzoMeret", "desc")}
+                onClick={() => sorttelephones("kijelzoMeret", "desc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -236,11 +247,11 @@ export default function tabletLista() {
               >
                 &#8595;
               </button>
-            </div>
-            <div className="col">
+            </th>
+              <th>
             Kijelző Felbontás
               <button
-                onClick={() => sortTablets("kijelzoFelbontas", "asc")}
+                onClick={() => sorttelephones("kijelzoFelbontas", "asc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -250,7 +261,7 @@ export default function tabletLista() {
                 &#8593;
               </button>
               <button
-                onClick={() => sortTablets("kijelzoFelbontas", "desc")}
+                onClick={() => sorttelephones("kijelzoFelbontas", "desc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -259,11 +270,11 @@ export default function tabletLista() {
               >
                 &#8595;
               </button>
-            </div>
-            <div className="col">
+            </th>
+              <th>
             RAM
               <button
-                onClick={() => sortTablets("RAM", "asc")}
+                onClick={() => sorttelephones("RAM", "asc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -273,7 +284,7 @@ export default function tabletLista() {
                 &#8593;
               </button>
               <button
-                onClick={() => sortTablets("RAM", "desc")}
+                onClick={() => sorttelephones("RAM", "desc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -282,11 +293,12 @@ export default function tabletLista() {
               >
                 &#8595;
               </button>
-            </div>
-            <div className="col">
+            </th>
+              <th>Leírás</th>
+              <th>
             ÁR
               <button
-                onClick={() => sortTablets("ar", "asc")}
+                onClick={() => sorttelephones("ar", "asc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -296,7 +308,7 @@ export default function tabletLista() {
                 &#8593;
               </button>
               <button
-                onClick={() => sortTablets("ar", "desc")}
+                onClick={() => sorttelephones("ar", "desc")}
                 style={{
                   textDecoration: "none",
                   border: "none",
@@ -305,10 +317,30 @@ export default function tabletLista() {
               >
                 &#8595;
               </button>
-            </div>
-          </div>
-          {items.map((tablet) => Kartya(tablet))}
-        </div>
+            </th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((telephone) => (
+              <tr key={telephone.id}>
+                <td>{telephone.Nev}</td>
+                <td>{telephone.opRendszer}</td>
+                <td>{telephone.procOrajel}</td>
+                <td>{telephone.procMagok}</td>
+                <td>{telephone.kijelzoMeret}</td>
+                <td>{telephone.kijelzoFelbontas}</td>
+                <td>{telephone.RAM}</td>
+                <td>{telephone.leiras}</td>
+                <td>{telephone.ar}</td>
+                <td>
+                  <Button variant="warning" onClick={() => handleEdit(telephone)}>Módosítás</Button>
+                  <Button typeof="checkbox" className="form-check" role="switch" id="disable" onClick={()=>setdisable(!disable)} >Disable</Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
       <div className="pagination mt-3">
         <button onClick={() => setPage((prev) => Math.max(prev - 1, 1))}>
@@ -318,7 +350,7 @@ export default function tabletLista() {
         <button
           onClick={() =>
             setPage((prev) =>
-              Math.min(prev + 1, Math.ceil(tablets.length / maxitems))
+              Math.min(prev + 1, Math.ceil(telephones.length / maxitems))
             )
           }
         >
