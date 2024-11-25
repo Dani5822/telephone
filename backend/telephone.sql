@@ -18,7 +18,6 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `webbolt`
 --
 
 -- --------------------------------------------------------
@@ -26,8 +25,6 @@ SET time_zone = "+00:00";
 --
 -- Tábla szerkezet ehhez a táblához `telephone`
 --
-CREATE database telephones;
-use telephones;
 
 CREATE TABLE `telephone` (
   `id` int(11) NOT NULL,
