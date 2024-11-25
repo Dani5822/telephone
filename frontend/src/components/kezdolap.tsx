@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import Kartya from "./kartya";
-import { Tablet } from "../tablet";
+import { Telephone } from "../telephone";
 import CostumeNavbar from "./navbar";
  
 export default function Kezdolap() {
-    const [tablets, setTablets] = useState<Tablet[]>([]);
+    const [Telephones, setTelephones] = useState<Telephone[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
  
     useEffect(() => {
-        fetch('http://localhost:3000/tablets')
+        fetch('http://localhost:3000/telephones')
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`Server responded with status ${response.status}`);
@@ -17,7 +17,7 @@ export default function Kezdolap() {
                 return response.json();
             })
             .then((data) => {
-                setTablets(data);
+                setTelephones(data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -34,25 +34,25 @@ export default function Kezdolap() {
         return <p>Error: {error}</p>;
     }
  
-    const sortedTablets = [...tablets].sort((a, b) => a.ar - b.ar);
-    const cheapestTablets = sortedTablets.slice(0, 3);
-    const mostExpensiveTablets = sortedTablets.slice(-3).reverse();
+    const sortedTelephones = [...Telephones].sort((a, b) => a.ar - b.ar);
+    const cheapestTelephones = sortedTelephones.slice(0, 3);
+    const mostExpensiveTelephones = sortedTelephones.slice(-3).reverse();
  
     return (
         <>
-                <CostumeNavbar />
+            <CostumeNavbar />
             <div >
                 <h2>Kezdőlap</h2>
-                <h3>Legolcsóbb Tabletek</h3>
+                <h3>Legolcsóbb Telephoneek</h3>
                 <ul>
-                    {cheapestTablets.map((tablet) => (
-                        Kartya(tablet)
+                    {cheapestTelephones.map((Telephone) => (
+                        Kartya(Telephone)
                     ))}
                 </ul>
-                <h2>Legdrágább Tabletek</h2>
+                <h2>Legdrágább Telephoneek</h2>
                 <ul>
-                    {mostExpensiveTablets.map((tablet) => (
-                        Kartya(tablet)
+                    {mostExpensiveTelephones.map((Telephone) => (
+                        Kartya(Telephone)
                     ))}
                 </ul>
             </div>
