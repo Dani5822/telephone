@@ -1,11 +1,13 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client'
 import {createBrowserRouter, RouterProvider } from 'react-router-dom'
-import TabletFelvetel from './components/tabletFelvetel';
-import TabletTorles from './components/tabletTorles';
-import TabletLista from './components/tabletLista';
+import TabletFelvetel from './components/telefonFelvetel';
+import TabletTorles from './components/telefonTorles';
+
 import Kezdolap from './components/kezdolap';
-import TabletekFullCrud from './components/tabletekfullcrud';
+import NewPhone from './components/telefonFelvetel';
+import TelefonTorles from './components/telefonTorles';
+import { TelefonRendezes } from './components/telefonRendezes';
 
 
 const router = createBrowserRouter([
@@ -15,20 +17,17 @@ const router = createBrowserRouter([
   },
   {
     path: "/tabletfelvetel",
-    element: <TabletFelvetel />,
+    element: <NewPhone />,
   },
   {
-    path: "/tabletTorles",
-    element: <TabletTorles />,
+    path: "/telefontorles",
+    element: <TelefonTorles />,
   },
   {
-    path: "/tableteklista",
-    element: <TabletLista />,
-  },
-  {
-    path: "/tabletekfullcrud",
-    element: <TabletekFullCrud />,
-  },
+    path:"/telefonrendezes",
+    element: <TelefonRendezes/>
+  }
+
 ]);
 
 

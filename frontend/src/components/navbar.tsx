@@ -9,9 +9,10 @@ export default function CustomNavbar(){
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/tabletfelvetel">Tablet Felvétel</Nav.Link>
-            <Nav.Link as={Link} to="/tablettorles">Tablet Törlés</Nav.Link>
+            <Nav.Link as={Link} to="/telefontorles">Tablet Törlés</Nav.Link>
+            <Nav.Link as={Link} to="/telefontorles">Ar szerinti rendezés</Nav.Link>
             <Nav.Link as={Link} to="/tableteklista">Tabletek Listája</Nav.Link>
-            <Nav.Link as={Link} to="/tabletekfullcrud">Full crud</Nav.Link>
+           
           </Nav>
         </Navbar.Collapse>
       </Container>
